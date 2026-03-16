@@ -60,17 +60,17 @@ following input JSON file named `fold_input.json`:
 You can then run AlphaFold 3 using the following command:
 
 ```
-docker run -it \
-    --volume $HOME/af_input:/root/af_input \
-    --volume $HOME/af_output:/root/af_output \
-    --volume <MODEL_PARAMETERS_DIR>:/root/models \
-    --volume <DATABASES_DIR>:/root/public_databases \
-    --gpus all \
-    alphafold3 \
-    python run_alphafold.py \
-    --json_path=/root/af_input/fold_input.json \
-    --model_dir=/root/models \
-    --output_dir=/root/af_output
+ docker run -it  \
+   --volume $HOME/alphafold3.0.1/af_input:/root/af_input  \
+   --volume $HOME/alphafold3.0.1/af_output:/root/af_output \
+   --volume $HOME/alphafold3.0.1/af3_model_params:/root/models \
+   --volume /scratch1/snowakowski/af3_databases/:/root/public_databases \
+   --gpus all \
+   alphafold3  \
+   python run_alphafold.py \
+   --json_path=/root/af_input/fold_input.json \
+   --model_dir=/root/models \
+   --output_dir=/root/af_output
 ```
 
 There are various flags that you can pass to the `run_alphafold.py` command, to
