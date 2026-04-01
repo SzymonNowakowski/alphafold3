@@ -9,7 +9,7 @@ def parse_fasta(fasta_path):
     current_seq = []
 
     if not os.path.exists(fasta_path):
-        print(f"Błąd: Plik wejściowy {fasta_path} nie istnieje.")
+        print(f"Error: {fasta_pathr} does not exist.")
         sys.exit(1)
 
     with open(fasta_path, 'r', encoding='utf-8') as f:
@@ -20,7 +20,6 @@ def parse_fasta(fasta_path):
             if line.startswith(">"):
                 if current_id:
                     sequences.append((current_id, "".join(current_seq)))
-                # Pobieramy pełny nagłówek dla logów, ale AF3 i tak go nie przyjmie jako ID
                 current_id = line[1:].strip()
                 current_seq = []
             else:
@@ -53,11 +52,11 @@ def convert_fasta_to_json(fasta_path, output_dir):
     }
 
     print("-" * 30)
-    print(f"Mapowanie identyfikatorów dla: {file_name_no_ext}")
+    print(f"Mapping identifiers for: {file_name_no_ext}")
 
     for index, (original_name, seq_str) in enumerate(fasta_data):
         if index >= len(alphabet):
-            print("Błąd: Zbyt wiele sekwencji (limit AF3 dla id to A-Z).")
+            print("Error. Too many sequences (limit is letters A-Z).")
             break
             
         letter_id = alphabet[index]
@@ -74,10 +73,11 @@ def convert_fasta_to_json(fasta_path, output_dir):
         json.dump(af3_json, jf, indent=2)
     
     print("-" * 30)
-    print(f"Gotowe! Plik JSON: {output_path}")
+    print(f"JSON output filename: {output_path}")
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Użycie: python fasta_to_af3_v3.py <sciezka_do_fasta> <katalog_wynikowy>")
+        print("Usage: python fasta2json.py <path_to_FASTA_file> <output_dir>\n\n")
+        print("The JSON filename will be the same as for the original FASTA\n")
     else:
         convert_fasta_to_json(sys.argv[1], sys.argv[2])
